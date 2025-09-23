@@ -1,1246 +1,515 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Game Topup Admin Panel</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Bengali&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<style>
-:root {
-  --primary: #10B981; /* Green */
-  --primary-dark: #059669;
-  --secondary: #34D399;
-  --bg: #0F172A; /* Dark Blue */
-  --bg-dark: #0b121e;
-  --card-bg: #1E293B; /* Slightly lighter dark blue */
-  --text-color: #F1F5F9; /* Off-white */
-  --text-light: #94A3B8;
-  --border-color: #334155;
-  --success-color: #10B981;
-  --warning-color: #F59E0B;
-  --error-color: #EF4444;
-  --info-color: #3B82F6;
-  --pending-color: #F59E0B;
-  --dark-text: #F1F5F9;
-  --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-}
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Inter', 'Noto Sans Bengali', sans-serif;
-}
-
-body {
-  background: var(--bg);
-  color: var(--text-color);
-  line-height: 1.6;
-}
-
-.container {
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 0 15px;
-}
-
-/* Header Styles */
-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 15px 20px;
-  background: var(--card-bg);
-  color: #fff;
-  box-shadow: var(--shadow);
-  position: sticky;
-  top: 0;
-  z-index: 100;
-}
-
-.header-content {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-}
-
-.logo {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.logo i {
-  font-size: 24px;
-}
-
-.logo h1 {
-  font-size: 22px;
-  font-weight: 700;
-}
-
-nav {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-
-nav button {
-  padding: 10px 16px;
-  border: none;
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.05);
-  color: #fff;
-  cursor: pointer;
-  transition: all 0.3s;
-  font-weight: 500;
-  font-size: 14px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-nav button:hover {
-  background: rgba(255, 255, 255, 0.1);
-  transform: translateY(-2px);
-}
-
-#admin-dashboard {
-  display: none;
-}
-
-/* Main Content */
-.main-content {
-  display: flex;
-  min-height: calc(100vh - 70px);
-}
-
-/* Sidebar */
-.sidebar {
-  width: 250px;
-  background: var(--card-bg);
-  padding: 20px 0;
-  box-shadow: var(--shadow);
-  height: calc(100vh - 70px);
-  position: sticky;
-  top: 70px;
-  overflow-y: auto;
-}
-
-.sidebar-menu {
-  list-style: none;
-}
-
-.sidebar-menu li {
-  margin-bottom: 5px;
-}
-
-.sidebar-menu a {
-  display: flex;
-  align-items: center;
-  padding: 12px 20px;
-  color: var(--text-light);
-  text-decoration: none;
-  transition: all 0.3s;
-  gap: 10px;
-  font-weight: 500;
-}
-
-.sidebar-menu a:hover, .sidebar-menu a.active {
-  background: var(--primary);
-  color: var(--text-color);
-}
-
-.sidebar-menu a i {
-  width: 20px;
-  text-align: center;
-}
-
-/* Content Area */
-.content {
-  flex: 1;
-  padding: 25px;
-  background: var(--bg);
-  overflow-y: auto;
-}
-
-.section {
-  display: none;
-}
-
-.active-section {
-  display: block;
-  animation: fadeIn 0.5s ease;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.section-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 25px;
-}
-
-.section-header h2 {
-  font-size: 24px;
-  font-weight: 700;
-  color: var(--text-color);
-}
-
-/* Card Styles */
-.card {
-  background: var(--card-bg);
-  border-radius: 12px;
-  padding: 24px;
-  box-shadow: var(--shadow);
-  margin-bottom: 25px;
-  transition: transform 0.3s, box-shadow 0.3s;
-  border: 1px solid var(--border-color);
-}
-
-.card:hover {
-  transform: translateY(-5px);
-  box-shadow: var(--shadow-lg);
-}
-
-.card h3 {
-  font-size: 18px;
-  font-weight: 600;
-  margin-bottom: 15px;
-  color: var(--text-color);
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.card h3 i {
-  color: var(--primary);
-}
-
-/* Form Elements */
-.form-group {
-  margin-bottom: 16px;
-}
-
-.form-group label {
-  display: block;
-  margin-bottom: 6px;
-  font-weight: 500;
-  color: var(--text-light);
-}
-
-input, select, textarea {
-  padding: 12px;
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
-  width: 100%;
-  font-size: 14px;
-  transition: border-color 0.3s, box-shadow 0.3s;
-  background: #1e293b;
-  color: var(--text-color);
-}
-
-input:focus, select:focus, textarea:focus {
-  border-color: var(--primary);
-  outline: none;
-  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
-}
-
-.btn {
-  padding: 12px 20px;
-  border: none;
-  border-radius: 8px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  font-size: 14px;
-}
-
-.btn-primary {
-  background: var(--primary);
-  color: #fff;
-}
-
-.btn-primary:hover {
-  background: var(--primary-dark);
-  transform: translateY(-2px);
-}
-
-.btn-secondary {
-  background: var(--text-light);
-  color: #fff;
-}
-
-.btn-secondary:hover {
-  background: #475569;
-}
-
-.btn-success {
-  background: var(--success-color);
-  color: #fff;
-}
-
-.btn-warning {
-  background: var(--warning-color);
-  color: #fff;
-}
-
-.btn-danger {
-  background: var(--error-color);
-  color: #fff;
-}
-
-.btn-sm {
-  padding: 8px 12px;
-  font-size: 12px;
-}
-
-/* Table Styles */
-.table-container {
-  overflow-x: auto;
-  border-radius: 12px;
-  box-shadow: var(--shadow);
-  border: 1px solid var(--border-color);
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-  background: var(--card-bg);
-  min-width: 800px;
-}
-
-table th, table td {
-  padding: 14px 16px;
-  text-align: left;
-  border-bottom: 1px solid var(--border-color);
-  font-size: 14px;
-}
-
-table th {
-  background: #1e293b;
-  font-weight: 600;
-  color: var(--dark-text);
-  text-transform: uppercase;
-  font-size: 12px;
-  letter-spacing: 0.5px;
-}
-
-table tbody tr:last-child td {
-  border-bottom: none;
-}
-
-table tbody tr:hover {
-  background: #2d3748;
-}
-
-/* Status Badges */
-.status-badge {
-  padding: 6px 12px;
-  border-radius: 20px;
-  font-size: 12px;
-  font-weight: 600;
-  color: #fff;
-  display: inline-block;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.status-done {
-  background-color: var(--success-color);
-}
-
-.status-pending {
-  background-color: var(--warning-color);
-}
-
-.status-processing {
-  background-color: var(--info-color);
-}
-
-.status-cancelled {
-  background-color: var(--error-color);
-}
-
-/* Modal Styles */
-.modal-bg {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  display: none;
-  justify-content: center;
-  align-items: center;
-  z-index: 2000;
-}
-
-.modal {
-  background: var(--card-bg);
-  padding: 30px;
-  border-radius: 12px;
-  width: 90%;
-  max-width: 500px;
-  position: relative;
-  box-shadow: var(--shadow-lg);
-  animation: modalFadeIn 0.3s ease;
-  border: 1px solid var(--border-color);
-}
-
-@keyframes modalFadeIn {
-  from { opacity: 0; transform: scale(0.9); }
-  to { opacity: 1; transform: scale(1); }
-}
-
-.close {
-  position: absolute;
-  top: 15px;
-  right: 15px;
-  cursor: pointer;
-  font-size: 24px;
-  color: var(--text-light);
-  transition: color 0.2s;
-}
-
-.close:hover {
-  color: var(--text-color);
-}
-
-.modal h2 {
-  margin-bottom: 20px;
-  color: var(--text-color);
-  font-weight: 600;
-}
-
-/* Screenshot Container */
-.screenshot-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-}
-
-.screenshot-container img {
-  max-width: 120px;
-  height: auto;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  cursor: pointer;
-  transition: transform 0.2s;
-}
-
-.screenshot-container img:hover {
-  transform: scale(1.05);
-}
-
-.download-btn {
-  background: var(--secondary);
-  color: #fff;
-  border: none;
-  border-radius: 6px;
-  padding: 8px 15px;
-  cursor: pointer;
-  font-weight: 500;
-  text-decoration: none;
-  transition: background-color 0.3s;
-  font-size: 12px;
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-}
-
-.download-btn:hover {
-  background: var(--primary);
-}
-
-/* Stats Cards */
-.stats-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 20px;
-  margin-bottom: 25px;
-}
-
-.stat-card {
-  background: var(--card-bg);
-  border-radius: 12px;
-  padding: 20px;
-  box-shadow: var(--shadow);
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  transition: transform 0.3s;
-}
-
-.stat-card:hover {
-  transform: translateY(-5px);
-}
-
-.stat-icon {
-  width: 50px;
-  height: 50px;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 24px;
-  color: white;
-}
-
-.stat-icon.primary {
-  background: var(--primary);
-}
-
-.stat-icon.success {
-  background: var(--success-color);
-}
-
-.stat-icon.warning {
-  background: var(--warning-color);
-}
-
-.stat-icon.info {
-  background: var(--info-color);
-}
-
-.stat-content h3 {
-  font-size: 14px;
-  color: var(--text-light);
-  margin-bottom: 5px;
-  font-weight: 500;
-}
-
-.stat-content .value {
-  font-size: 24px;
-  font-weight: 700;
-  color: var(--text-color);
-}
-
-/* Responsive Design */
-@media (max-width: 1024px) {
-  .main-content {
-    flex-direction: column;
-  }
-  
-  .sidebar {
-    width: 100%;
-    height: auto;
-    position: static;
-  }
-  
-  .sidebar-menu {
-    display: flex;
-    overflow-x: auto;
-  }
-  
-  .sidebar-menu li {
-    margin-bottom: 0;
-    flex-shrink: 0;
-  }
-  
-  .sidebar-menu a {
-    white-space: nowrap;
-  }
-}
-
-@media (max-width: 768px) {
-  header {
-    flex-direction: column;
-    gap: 15px;
-    padding: 15px;
-  }
-  
-  .header-content {
-    width: 100%;
-    justify-content: space-between;
-  }
-  
-  nav {
-    width: 100%;
-    justify-content: center;
-  }
-  
-  .content {
-    padding: 15px;
-  }
-  
-  .section-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 15px;
-  }
-  
-  .stats-container {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* Dark Mode Support (prefers-color-scheme is not needed as theme is forced dark) */
-</style>
-</head>
-<body>
-
-<div class="container">
-  <header>
-    <div class="header-content">
-      <div class="logo">
-        <i class="fas fa-gamepad"></i>
-        <h1>GameTopup Admin</h1>
-      </div>
-      <div id="admin-auth">
-        <button class="btn btn-primary" onclick="showLogin()">
-          <i class="fas fa-sign-in-alt"></i> Login
-        </button>
-      </div>
-    </div>
-    <div id="admin-dashboard">
-      <nav>
-        <button onclick="showSection('dashboardSection')">
-          <i class="fas fa-tachometer-alt"></i> Dashboard
-        </button>
-        <button onclick="showSection('offersSection')">
-          <i class="fas fa-tags"></i> Offers
-        </button>
-        <button onclick="showSection('bannerSection')">
-          <i class="fas fa-bullhorn"></i> Banner/Notice
-        </button>
-        <button onclick="showSection('ordersSection')">
-          <i class="fas fa-shopping-cart"></i> Orders
-        </button>
-        <button onclick="showSection('usersSection')">
-          <i class="fas fa-users"></i> Users
-        </button>
-        <button onclick="showSection('notificationsSection')">
-          <i class="fas fa-bell"></i> Notifications
-        </button>
-        <button onclick="logoutAdmin()">
-          <i class="fas fa-sign-out-alt"></i> Logout
-        </button>
-      </nav>
-    </div>
-  </header>
-
-  <div class="main-content">
-    <div class="sidebar">
-      <ul class="sidebar-menu">
-        <li><a href="#" onclick="showSection('dashboardSection')" class="active">
-          <i class="fas fa-tachometer-alt"></i> Dashboard
-        </a></li>
-        <li><a href="#" onclick="showSection('offersSection')">
-          <i class="fas fa-tags"></i> Offers
-        </a></li>
-        <li><a href="#" onclick="showSection('bannerSection')">
-          <i class="fas fa-bullhorn"></i> Banner/Notice
-        </a></li>
-        <li><a href="#" onclick="showSection('ordersSection')">
-          <i class="fas fa-shopping-cart"></i> Orders
-        </a></li>
-        <li><a href="#" onclick="showSection('usersSection')">
-          <i class="fas fa-users"></i> Users
-        </a></li>
-        <li><a href="#" onclick="showSection('notificationsSection')">
-          <i class="fas fa-bell"></i> Notifications
-        </a></li>
-      </ul>
-    </div>
-
-    <div class="content">
-      <div class="section active-section" id="dashboardSection">
-        <div class="section-header">
-          <h2><i class="fas fa-tachometer-alt"></i> Dashboard</h2>
-          <div class="date-display" id="currentDate"></div>
-        </div>
-        
-        <div class="stats-container">
-          <div class="stat-card">
-            <div class="stat-icon primary">
-              <i class="fas fa-shopping-cart"></i>
-            </div>
-            <div class="stat-content">
-              <h3>Total Orders</h3>
-              <div class="value" id="totalOrders">0</div>
-            </div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-icon success">
-              <i class="fas fa-check-circle"></i>
-            </div>
-            <div class="stat-content">
-              <h3>Completed Orders</h3>
-              <div class="value" id="completedOrders">0</div>
-            </div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-icon warning">
-              <i class="fas fa-clock"></i>
-            </div>
-            <div class="stat-content">
-              <h3>Pending Orders</h3>
-              <div class="value" id="pendingOrders">0</div>
-            </div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-icon info">
-              <i class="fas fa-users"></i>
-            </div>
-            <div class="stat-content">
-              <h3>Total Users</h3>
-              <div class="value" id="totalUsers">0</div>
-            </div>
-          </div>
-        </div>
-        
-        <div class="card">
-          <h3><i class="fas fa-chart-line"></i> Recent Activity</h3>
-          <div id="recentActivity">
-            <p>No recent activity to display.</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="section" id="offersSection">
-        <div class="section-header">
-          <h2><i class="fas fa-tags"></i> Offers Management</h2>
-          <button class="btn btn-primary" onclick="toggleOfferForm()">
-            <i class="fas fa-plus"></i> Add New Offer
-          </button>
-        </div>
-        
-        <div class="card" id="offerFormCard">
-          <h3>Add/Edit Offer</h3>
-          <div class="form-group">
-            <label for="offerTitle">Title</label>
-            <input type="text" id="offerTitle" placeholder="Enter offer title">
-          </div>
-          <div class="form-group">
-            <label for="offerPrice">Price</label>
-            <input type="number" id="offerPrice" placeholder="Enter price">
-          </div>
-          <div class="form-group">
-            <label for="offerCategory">Category</label>
-            <input type="text" id="offerCategory" placeholder="Enter category">
-          </div>
-          <div class="form-group">
-            <label for="offerDesc">Description</label>
-            <textarea id="offerDesc" placeholder="Enter description" rows="3"></textarea>
-          </div>
-          <button class="btn btn-primary" onclick="saveOffer()">
-            <i class="fas fa-save"></i> Save Offer
-          </button>
-        </div>
-        
-        <div class="card">
-          <h3><i class="fas fa-list"></i> Existing Offers</h3>
-          <div class="table-container">
-            <table id="offersTable">
-              <thead>
-                <tr>
-                  <th>Image</th>
-                  <th>Title</th>
-                  <th>Price</th>
-                  <th>Category</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody></tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-
-      <div class="section" id="bannerSection">
-        <div class="section-header">
-          <h2><i class="fas fa-bullhorn"></i> Banner & Notice Management</h2>
-        </div>
-        
-        <div class="card">
-          <h3>Update Banner & Notice</h3>
-          <div class="form-group">
-            <label for="bannerText">Banner Text</label>
-            <input type="text" id="bannerText" placeholder="Enter banner text">
-          </div>
-          <div class="form-group">
-            <label for="noticeText">Notice Text</label>
-            <input type="text" id="noticeText" placeholder="Enter notice text">
-          </div>
-          <button class="btn btn-primary" onclick="updateMeta()">
-            <i class="fas fa-save"></i> Save Changes
-          </button>
-        </div>
-      </div>
-
-      <div class="section" id="ordersSection">
-        <div class="section-header">
-          <h2><i class="fas fa-shopping-cart"></i> Orders Management</h2>
-          <div class="filters">
-            <select id="orderFilter" onchange="filterOrders()">
-              <option value="all">All Orders</option>
-              <option value="pending">Pending</option>
-              <option value="done">Completed</option>
-            </select>
-          </div>
-        </div>
-        
-        <div class="card">
-          <h3>Orders List</h3>
-          <div class="table-container">
-            <table id="ordersTable">
-              <thead>
-                <tr>
-                  <th>UID</th>
-                  <th>Username</th>
-                  <th>Offer ID</th>
-                  <th>Game ID</th>
-                  <th>Method</th>
-                  <th>Price</th>
-                  <th>Screenshot</th>
-                  <th>Status</th>
-                  <th>Timestamp</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody></tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-
-      <div class="section" id="usersSection">
-        <div class="section-header">
-          <h2><i class="fas fa-users"></i> Users Management</h2>
-        </div>
-        
-        <div class="card">
-          <h3>Users List</h3>
-          <div class="table-container">
-            <table id="usersTable">
-              <thead>
-                <tr>
-                  <th>Email</th>
-                  <th>Status</th>
-                  <th>Registration Date</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody></tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-
-      <div class="section" id="notificationsSection">
-        <div class="section-header">
-          <h2><i class="fas fa-bell"></i> Notifications</h2>
-        </div>
-        
-        <div class="card">
-          <h3>Send Notification</h3>
-          <div class="form-group">
-            <label for="notifTitle">Title</label>
-            <input type="text" id="notifTitle" placeholder="Enter notification title">
-          </div>
-          <div class="form-group">
-            <label for="notifMsg">Message</label>
-            <textarea id="notifMsg" placeholder="Enter notification message" rows="4"></textarea>
-          </div>
-          <button class="btn btn-primary" onclick="sendNotification()">
-            <i class="fas fa-paper-plane"></i> Send Notification
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="modal-bg" id="loginModal">
-  <div class="modal">
-    <span class="close" onclick="closeModal('loginModal')">&times;</span>
-    <h2>Admin Login</h2>
-    <div class="form-group">
-      <label for="adminPass">Admin Password</label>
-      <input type="password" id="adminPass" placeholder="Enter admin password">
-    </div>
-    <button class="btn btn-primary" onclick="loginAdmin()" style="width: 100%;">
-      <i class="fas fa-sign-in-alt"></i> Login
-    </button>
-  </div>
-</div>
-
-<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
-
-<script>
-// Firebase config
-const firebaseConfig = {
-  apiKey: "AIzaSyDtq1vLVZ9D3CBis6FFSpt8psERGyTG6YM",
-  authDomain: "gen-z-airdrop.firebaseapp.com",
-  databaseURL: "https://gen-z-airdrop-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId: "gen-z-airdrop",
-  storageBucket: "gen-z-airdrop.firebasedatabase.app",
-  messagingSenderId: "1056087088959",
-  appId: "1:1056087088959:web:2d15418429c2f378f2bd8a",
-  measurementId: "G-CKB3HP9D31"
-};
-firebase.initializeApp(firebaseConfig);
-const db = firebase.database();
-
-let allUsers = {};
-let allOrders = {};
-let allOffers = {};
-
-// Set current date
-document.getElementById('currentDate').textContent = new Date().toLocaleDateString('en-US', { 
-  weekday: 'long', 
-  year: 'numeric', 
-  month: 'long', 
-  day: 'numeric' 
-});
-
-// Admin Login
-function showLogin() {
-  document.getElementById('loginModal').style.display = 'flex';
-}
-
-function closeModal(id) {
-  document.getElementById(id).style.display = 'none';
-}
-
-function loginAdmin() {
-  const pass = document.getElementById('adminPass').value;
-  if (pass === 'admin321') {
-    document.getElementById('loginModal').style.display = 'none';
-    document.getElementById('admin-auth').style.display = 'none';
-    document.getElementById('admin-dashboard').style.display = 'block';
-    showSection('dashboardSection');
-    loadOffers();
-    loadUsers();
-    loadOrders();
-    updateDashboardStats();
-  } else {
-    alert('Incorrect password');
-  }
-}
-
-function logoutAdmin() {
-  location.reload();
-}
-
-// Section Navigation
-function showSection(id) {
-  document.querySelectorAll('.section').forEach(s => s.classList.remove('active-section'));
-  document.getElementById(id).classList.add('active-section');
-  
-  // Update sidebar active state
-  document.querySelectorAll('.sidebar-menu a').forEach(a => a.classList.remove('active'));
-  document.querySelector(`.sidebar-menu a[onclick="showSection('${id}')"]`).classList.add('active');
-}
-
-// Toggle offer form visibility
-function toggleOfferForm() {
-  const formCard = document.getElementById('offerFormCard');
-  formCard.style.display = formCard.style.display === 'none' ? 'block' : 'none';
-}
-
-// ---------------- Dashboard Functions ----------------
-function updateDashboardStats() {
-  // Update orders count
-  const totalOrders = Object.keys(allOrders).length;
-  const completedOrders = Object.values(allOrders).filter(order => order.status === 'done').length;
-  const pendingOrders = Object.values(allOrders).filter(order => order.status === 'pending').length;
-  
-  document.getElementById('totalOrders').textContent = totalOrders;
-  document.getElementById('completedOrders').textContent = completedOrders;
-  document.getElementById('pendingOrders').textContent = pendingOrders;
-  document.getElementById('totalUsers').textContent = Object.keys(allUsers).length;
-  
-  // Update recent activity
-  const recentActivity = document.getElementById('recentActivity');
-  if (totalOrders > 0) {
-    const recentOrders = Object.values(allOrders)
-      .sort((a, b) => b.timestamp - a.timestamp)
-      .slice(0, 5);
-    
-    let activityHTML = '';
-    recentOrders.forEach(order => {
-      const date = new Date(order.timestamp);
-      const timeAgo = getTimeAgo(order.timestamp);
-      activityHTML += `
-        <div style="padding: 10px 0; border-bottom: 1px solid var(--border-color);">
-          <div style="display: flex; justify-content: space-between;">
-            <span><strong>${order.username || 'User'}</strong> placed an order</span>
-            <span style="color: var(--text-light); font-size: 12px;">${timeAgo}</span>
-          </div>
-          <div style="font-size: 14px; color: var(--text-light);">
-            Offer: ${allOffers[order.offerId]?.title || 'Unknown'}, Status: 
-            <span class="status-badge ${order.status === 'done' ? 'status-done' : 'status-pending'}">
-              ${order.status}
-            </span>
-          </div>
-        </div>
-      `;
-    });
-    
-    recentActivity.innerHTML = activityHTML;
-  }
-}
-
-function getTimeAgo(timestamp) {
-  const now = Date.now();
-  const diff = now - timestamp;
-  
-  const minutes = Math.floor(diff / 60000);
-  const hours = Math.floor(diff / 3600000);
-  const days = Math.floor(diff / 86400000);
-  
-  if (days > 0) return `${days} day${days > 1 ? 's' : ''} ago`;
-  if (hours > 0) return `${hours} hour${hours > 1 ? 's' : ''} ago`;
-  if (minutes > 0) return `${minutes} minute${minutes > 1 ? 's' : ''} ago`;
-  return 'Just now';
-}
-
-// ---------------- Offers ----------------
-let currentOffers = {};
-let editingOfferId = null;
-
-async function saveOffer() {
-  const title = document.getElementById('offerTitle').value;
-  const price = parseFloat(document.getElementById('offerPrice').value);
-  const category = document.getElementById('offerCategory').value;
-  const desc = document.getElementById('offerDesc').value;
-  
-  if (!title || !price || !category || !desc) {
-    alert('Please fill all fields');
-    return;
-  }
-  
-  // Placeholder for image URL since upload is removed
-  const imageUrl = 'https://via.placeholder.com/150/10B981/FFFFFF?text=No+Image';
-
-  if (editingOfferId) {
-    // Update existing offer
-    await db.ref('offers/' + editingOfferId).update({
-      title, price, category, description: desc, image: imageUrl
-    });
-    editingOfferId = null;
-  } else {
-    // Create new offer
-    const newRef = db.ref('offers').push();
-    await newRef.set({ title, price, category, description: desc, image: imageUrl });
-  }
-  
-  alert('Offer saved successfully');
-  resetOfferForm();
-  loadOffers();
-}
-
-function resetOfferForm() {
-  document.getElementById('offerTitle').value = '';
-  document.getElementById('offerPrice').value = '';
-  document.getElementById('offerCategory').value = '';
-  document.getElementById('offerDesc').value = '';
-  editingOfferId = null;
-}
-
-function loadOffers() {
-  db.ref('offers').on('value', snap => {
-    currentOffers = snap.val() || {};
-    allOffers = currentOffers;
-    const tbody = document.querySelector('#offersTable tbody');
-    tbody.innerHTML = '';
-    
-    Object.keys(currentOffers).forEach(key => {
-      const o = currentOffers[key];
-      const tr = document.createElement('tr');
-      tr.innerHTML = `
-        <td><img src="${o.image || 'https://via.placeholder.com/50'}" width="50" height="50" style="object-fit: cover; border-radius: 5px;"></td>
-        <td>${o.title}</td>
-        <td>$${o.price}</td>
-        <td>${o.category}</td>
-        <td>
-          <button class="btn btn-sm btn-secondary" onclick="editOffer('${key}')">
-            <i class="fas fa-edit"></i> Edit
-          </button>
-          <button class="btn btn-sm btn-danger" onclick="deleteOffer('${key}')">
-            <i class="fas fa-trash"></i> Delete
-          </button>
-        </td>`;
-      tbody.appendChild(tr);
-    });
-    
-    updateDashboardStats();
-  });
-}
-
-function editOffer(id) {
-  const offer = currentOffers[id];
-  if (!offer) return;
-  
-  document.getElementById('offerTitle').value = offer.title;
-  document.getElementById('offerPrice').value = offer.price;
-  document.getElementById('offerCategory').value = offer.category;
-  document.getElementById('offerDesc').value = offer.description;
-  editingOfferId = id;
-  
-  // Scroll to form
-  document.getElementById('offerFormCard').scrollIntoView({ behavior: 'smooth' });
-}
-
-function deleteOffer(id) {
-  if (confirm('Are you sure you want to delete this offer?')) {
-    db.ref('offers/' + id).remove();
-  }
-}
-
-// ---------------- Banner/Notice ----------------
-function updateMeta() {
-  const banner = document.getElementById('bannerText').value;
-  const notice = document.getElementById('noticeText').value;
-  db.ref('meta').update({ banner, notice });
-  alert('Banner and notice updated successfully');
-}
-
-// ---------------- Users ----------------
-function loadUsers() {
-  db.ref('users').on('value', snap => {
-    allUsers = snap.val() || {};
-    const tbody = document.querySelector('#usersTable tbody');
-    tbody.innerHTML = '';
-    
-    Object.keys(allUsers).forEach(uid => {
-      const u = allUsers[uid];
-      const regDate = u.registrationDate ? new Date(u.registrationDate).toLocaleDateString() : 'Unknown';
-      
-      const tr = document.createElement('tr');
-      tr.innerHTML = `
-        <td>${u.email}</td>
-        <td>
-          <span class="status-badge ${u.banned ? 'status-cancelled' : 'status-done'}">
-            ${u.banned ? 'Banned' : 'Active'}
-          </span>
-        </td>
-        <td>${regDate}</td>
-        <td>
-          ${u.banned ? 
-            `<button class="btn btn-sm btn-success" onclick="banUnban('${uid}', false)">
-              <i class="fas fa-check"></i> Unban
-            </button>` : 
-            `<button class="btn btn-sm btn-warning" onclick="banUnban('${uid}', true)">
-              <i class="fas fa-ban"></i> Ban
-            </button>`
-          }
-        </td>`;
-      tbody.appendChild(tr);
-    });
-    
-    updateDashboardStats();
-  });
-}
-
-function banUnban(uid, val) {
-  const action = val ? 'ban' : 'unban';
-  if (confirm(`Are you sure you want to ${action} this user?`)) {
-    db.ref('users/' + uid).update({ banned: val });
-  }
-}
-
-// ---------------- Orders ----------------
-function loadOrders() {
-  db.ref('orders').on('value', snap => {
-    allOrders = snap.val() || {};
-    filterOrders(); // Apply current filter
-    updateDashboardStats();
-  });
-}
-
-function filterOrders() {
-  const filter = document.getElementById('orderFilter').value;
-  const tbody = document.querySelector('#ordersTable tbody');
-  tbody.innerHTML = '';
-  
-  Object.keys(allOrders).forEach(key => {
-    const o = allOrders[key];
-    
-    // Apply filter
-    if (filter !== 'all' && o.status !== filter) return;
-    
-    const date = new Date(o.timestamp);
-    const formattedDate = date.toLocaleString();
-    const username = o.username || 'N/A';
-    const statusClass = o.status === 'done' ? 'status-done' : 'status-pending';
-    
-    const tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td>${o.uid}</td>
-      <td>${username}</td>
-      <td>${o.offerId}</td>
-      <td>${o.gameId}</td>
-      <td>${o.paymentMethod}</td>
-      <td>$${o.price}</td>
-      <td>
-        <div class="screenshot-container">
-          <img src="${o.proofUrl}" alt="Payment Screenshot" onclick="window.open('${o.proofUrl}', '_blank');" />
-          <a href="${o.proofUrl}" download class="download-btn">
-            <i class="fas fa-download"></i> Download
-          </a>
-        </div>
-      </td>
-      <td><span class="status-badge ${statusClass}">${o.status}</span></td>
-      <td>${formattedDate}</td>
-      <td>
-        ${o.status === 'pending' ? 
-          `<button class="btn btn-sm btn-success" onclick="updateOrderStatus('${key}', 'done')">
-            <i class="fas fa-check"></i> Mark Done
-          </button>` : 
-          `<button class="btn btn-sm btn-secondary" onclick="updateOrderStatus('${key}', 'pending')">
-            <i class="fas fa-undo"></i> Reopen
-          </button>`
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - GG Bazar</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #111827;
         }
-      </td>`;
-    tbody.appendChild(tr);
-  });
-}
+    </style>
+</head>
+<body class="text-gray-200">
 
-function updateOrderStatus(id, status) {
-  db.ref('orders/' + id).update({ status });
-}
+    <div id="admin-login" class="min-h-screen flex items-center justify-center">
+        <div class="bg-gray-800 w-full max-w-sm p-8 rounded-lg shadow-xl border border-gray-700">
+            <h1 class="text-2xl font-bold text-center text-emerald-400 mb-6">Admin Login</h1>
+            <form id="admin-login-form">
+                <div class="mb-6">
+                    <label for="admin-password" class="block text-sm font-medium text-gray-300 mb-2">Password</label>
+                    <input type="password" id="admin-password" required class="w-full bg-gray-700 border border-gray-600 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                </div>
+                <p id="admin-login-error" class="text-red-500 text-sm text-center mb-4"></p>
+                <button type="submit" class="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-2 px-4 rounded-md transition-colors">Login</button>
+            </form>
+        </div>
+    </div>
 
-// ---------------- Notifications ----------------
-function sendNotification() {
-  const title = document.getElementById('notifTitle').value;
-  const msg = document.getElementById('notifMsg').value;
-  if (!title || !msg) {
-    alert('Please fill all fields');
-    return;
-  }
-  
-  db.ref('notifications').push({
-    title,
-    msg,
-    timestamp: Date.now()
-  });
-  
-  alert('Notification sent successfully');
-  document.getElementById('notifTitle').value = '';
-  document.getElementById('notifMsg').value = '';
-}
+    <div id="admin-dashboard" class="hidden container mx-auto p-8">
+        <div class="flex justify-between items-center mb-8">
+            <h1 class="text-3xl font-bold text-emerald-400">Admin Dashboard</h1>
+            <button id="admin-logout-btn" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-md text-sm transition-colors">Logout</button>
+        </div>
 
-// Initialize the app
-document.addEventListener('DOMContentLoaded', function() {
-  // Set dashboard as active section
-  showSection('dashboardSection');
-});
-</script>
+        <div class="bg-gray-800 p-6 rounded-lg border border-gray-700 mb-8">
+            <h2 class="text-xl font-semibold mb-4 text-white">Add New Topup Offer</h2>
+            <form id="add-offer-form" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div>
+                    <label for="product-id" class="block text-sm text-gray-400">Product ID</label>
+                    <select id="product-id" required class="w-full mt-1 bg-gray-700 border border-gray-600 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                        <option value="id_code_topup">ID Code Topup</option>
+                        <option value="level_up_pass">LEVEL UP PASS</option>
+                        <option value="evo_access">EVO ACCESS</option>
+                        <option value="weekly_lite">Weekly Lite</option>
+                        <option value="weekly_monthly">Weekly/Monthly Offer</option>
+                    </select>
+                </div>
+                <div id="diamond-field">
+                    <label for="diamond-amount" class="block text-sm text-gray-400">Diamond Amount</label>
+                    <input type="number" id="diamond-amount" placeholder="e.g., 100" class="w-full mt-1 bg-gray-700 border border-gray-600 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                </div>
+                <div id="price-field">
+                    <label for="offer-price" class="block text-sm text-gray-400">Price (TK)</label>
+                    <input type="number" id="offer-price" placeholder="e.g., 85" required class="w-full mt-1 bg-gray-700 border border-gray-600 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                </div>
+                <div id="world-number-field" class="hidden md:col-span-3">
+                    <label for="world-number" class="block text-sm text-gray-400">World Number</label>
+                    <input type="text" id="world-number" placeholder="e.g., world-20" class="w-full mt-1 bg-gray-700 border border-gray-600 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                </div>
+                <div id="weekly-lite-field" class="hidden">
+                    <label for="weekly-lite-amount" class="block text-sm text-gray-400">Weekly Lite Amount</label>
+                    <select id="weekly-lite-amount" class="w-full mt-1 bg-gray-700 border border-gray-600 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                        <option value="1x">1x</option>
+                        <option value="2x">2x</option>
+                        <option value="3x">3x</option>
+                        <option value="4x">4x</option>
+                    </select>
+                </div>
+                <div id="weekly-monthly-field" class="hidden md:col-span-2 grid grid-cols-2 gap-4">
+                    <div>
+                        <label for="weekly-amount" class="block text-sm text-gray-400">Weekly Multiplier</label>
+                        <select id="weekly-amount" class="w-full mt-1 bg-gray-700 border border-gray-600 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                            <option value="1x">1x</option>
+                            <option value="2x">2x</option>
+                            <option value="3x">3x</option>
+                            <option value="4x">4x</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="monthly-amount" class="block text-sm text-gray-400">Monthly Multiplier</label>
+                        <select id="monthly-amount" class="w-full mt-1 bg-gray-700 border border-gray-600 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                            <option value="1x">1x</option>
+                            <option value="2x">2x</option>
+                            <option value="3x">3x</option>
+                            <option value="4x">4x</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="md:col-span-3">
+                    <button type="submit" class="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-2 px-4 rounded-md transition-colors">Add Offer</button>
+                </div>
+            </form>
+        </div>
 
+        <div class="bg-gray-800 p-6 rounded-lg border border-gray-700 mb-8">
+            <h2 class="text-xl font-semibold mb-4 text-white">Current Offers (<span id="current-offers-title">ID Code Topup</span>)</h2>
+            <div id="offers-list" class="space-y-3">
+                <p>Loading offers...</p>
+                </div>
+        </div>
+
+        <div class="bg-gray-800 p-6 rounded-lg border border-gray-700">
+            <h2 class="text-xl font-semibold mb-4 text-white">Pending Payment Deposits</h2>
+            <div id="pending-deposits-list" class="space-y-4">
+                <p class="text-gray-400">No pending deposits found.</p>
+            </div>
+        </div>
+        </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import {
+            getAuth,
+            signInAnonymously,
+            signOut
+        } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { 
+            getDatabase, 
+            ref,
+            push,
+            onValue,
+            remove,
+            get,
+            set,
+            serverTimestamp
+        } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDtq1vLVZ9D3CBis6FFSpt8psERGyTG6YM",
+            authDomain: "gen-z-airdrop.firebaseapp.com",
+            databaseURL: "https://gen-z-airdrop-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "gen-z-airdrop",
+            storageBucket: "gen-z-airdrop.firebasestorage.app",
+            messagingSenderId: "1056087088959",
+            appId: "1:1056087088959:web:2d15418429c2f378f2bd8a",
+            measurementId: "G-CKB3HP9D31"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+        const auth = getAuth(app);
+
+        const adminLoginSection = document.getElementById('admin-login');
+        const adminDashboardSection = document.getElementById('admin-dashboard');
+        const adminLoginForm = document.getElementById('admin-login-form');
+        const adminLoginError = document.getElementById('admin-login-error');
+        const adminLogoutBtn = document.getElementById('admin-logout-btn');
+
+        const addOfferForm = document.getElementById('add-offer-form');
+        const offersListContainer = document.getElementById('offers-list');
+        const productIdSelect = document.getElementById('product-id');
+        const currentOffersTitle = document.getElementById('current-offers-title');
+        
+        const diamondField = document.getElementById('diamond-field');
+        const diamondInput = document.getElementById('diamond-amount');
+        const worldNumberField = document.getElementById('world-number-field');
+        const worldNumberInput = document.getElementById('world-number');
+        const weeklyLiteField = document.getElementById('weekly-lite-field');
+        const weeklyLiteInput = document.getElementById('weekly-lite-amount');
+        const weeklyMonthlyField = document.getElementById('weekly-monthly-field');
+        const weeklyAmountInput = document.getElementById('weekly-amount');
+        const monthlyAmountInput = document.getElementById('monthly-amount');
+
+        // NEW ELEMENT REFERENCES
+        const pendingDepositsListContainer = document.getElementById('pending-deposits-list');
+
+        const ADMIN_PASSWORD = "admin123";
+        let currentOffersRef;
+        let pendingDepositsRef;
+
+        // Admin Authentication
+        adminLoginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const password = adminLoginForm['admin-password'].value;
+            if (password === ADMIN_PASSWORD) {
+                try {
+                    await signInAnonymously(auth);
+                    sessionStorage.setItem('isAdminAuthenticated', 'true');
+                    showDashboard();
+                } catch (error) {
+                    console.error("Anonymous sign-in failed:", error);
+                    adminLoginError.textContent = "Firebase authentication failed.";
+                }
+            } else {
+                adminLoginError.textContent = "Incorrect password.";
+            }
+        });
+        
+        adminLogoutBtn.addEventListener('click', async () => {
+             await signOut(auth);
+             sessionStorage.removeItem('isAdminAuthenticated');
+             showLogin();
+        });
+
+        function showDashboard() {
+            adminLoginSection.classList.add('hidden');
+            adminDashboardSection.classList.remove('hidden');
+            listenForOffers();
+            listenForPendingDeposits(); 
+        }
+
+        function showLogin() {
+             adminLoginSection.classList.remove('hidden');
+             adminDashboardSection.classList.add('hidden');
+        }
+
+        // Check auth status on page load
+        if (sessionStorage.getItem('isAdminAuthenticated') === 'true') {
+            showDashboard();
+        }
+
+        // Add event listener for product selection change
+        productIdSelect.addEventListener('change', () => {
+            const selectedProductId = productIdSelect.value;
+            // Hide all special fields first
+            diamondField.classList.add('hidden');
+            diamondInput.removeAttribute('required');
+            worldNumberField.classList.add('hidden');
+            weeklyLiteField.classList.add('hidden');
+            weeklyMonthlyField.classList.add('hidden');
+            
+            // Show fields based on selection
+            if (selectedProductId === 'id_code_topup') {
+                diamondField.classList.remove('hidden');
+                diamondInput.setAttribute('required', '');
+            } else if (selectedProductId === 'level_up_pass' || selectedProductId === 'evo_access') {
+                worldNumberField.classList.remove('hidden');
+            } else if (selectedProductId === 'weekly_lite') {
+                weeklyLiteField.classList.remove('hidden');
+            } else if (selectedProductId === 'weekly_monthly') {
+                weeklyMonthlyField.classList.remove('hidden');
+            }
+
+            // Update the title and re-fetch offers for the new product
+            currentOffersTitle.textContent = productIdSelect.options[productIdSelect.selectedIndex].text;
+            listenForOffers();
+        });
+
+
+        // Add Offer
+        addOfferForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const productId = productIdSelect.value;
+            const price = parseInt(addOfferForm['offer-price'].value);
+
+            if (isNaN(price)) {
+                alert("Please fill the price field correctly.");
+                return;
+            }
+
+            let offerData = { price: price };
+
+            if (productId === 'id_code_topup') {
+                const diamonds = parseInt(addOfferForm['diamond-amount'].value);
+                if (isNaN(diamonds)) {
+                    alert("Please fill the diamond amount field correctly.");
+                    return;
+                }
+                offerData.diamonds = diamonds;
+            } else if (productId === 'level_up_pass' || productId === 'evo_access') {
+                const worldNumber = addOfferForm['world-number'].value;
+                if (!worldNumber) {
+                    alert("Please enter the World Number.");
+                    return;
+                }
+                offerData.world_number = worldNumber;
+            } else if (productId === 'weekly_lite') {
+                const weeklyLiteAmount = addOfferForm['weekly-lite-amount'].value;
+                if (!weeklyLiteAmount) {
+                    alert("Please select a Weekly Lite amount.");
+                    return;
+                }
+                offerData.amount = weeklyLiteAmount;
+            } else if (productId === 'weekly_monthly') {
+                const weeklyAmount = addOfferForm['weekly-amount'].value;
+                const monthlyAmount = addOfferForm['monthly-amount'].value;
+                if (!weeklyAmount || !monthlyAmount) {
+                    alert("Please select both Weekly and Monthly amounts.");
+                    return;
+                }
+                offerData.weekly_amount = weeklyAmount;
+                offerData.monthly_amount = monthlyAmount;
+            }
+
+            if (!auth.currentUser) {
+                alert("Not authenticated. Please log in again.");
+                showLogin();
+                return;
+            }
+
+            try {
+                const offersRef = ref(database, 'products/' + productId + '/offers');
+                await push(offersRef, offerData);
+                addOfferForm.reset();
+                // Reset to default state
+                productIdSelect.value = 'id_code_topup';
+                currentOffersTitle.textContent = 'ID Code Topup';
+                // Show default fields
+                diamondField.classList.remove('hidden');
+                diamondInput.setAttribute('required', '');
+                worldNumberField.classList.add('hidden');
+                weeklyLiteField.classList.add('hidden');
+                weeklyMonthlyField.classList.add('hidden');
+            } catch (error) {
+                console.error("Error adding offer: ", error);
+                alert("Failed to add offer. Check console for details.");
+            }
+        });
+
+        // Listen for and Display Offers in Realtime
+        function listenForOffers() {
+            const productId = productIdSelect.value;
+            // Detach previous listener if it exists
+            if (currentOffersRef) {
+                onValue(currentOffersRef, () => {}); // Detach listener
+            }
+
+            currentOffersRef = ref(database, 'products/' + productId + '/offers');
+
+            onValue(currentOffersRef, (snapshot) => {
+                const offers = snapshot.val();
+                if (!offers) {
+                    offersListContainer.innerHTML = '<p>No offers found.</p>';
+                    return;
+                }
+
+                let offersArray = Object.keys(offers).map(key => ({
+                    id: key,
+                    ...offers[key]
+                }));
+
+                // Sort offers
+                if (productId === 'id_code_topup') {
+                    offersArray.sort((a, b) => a.diamonds - b.diamonds);
+                } else {
+                    offersArray.sort((a, b) => a.price - b.price);
+                }
+
+                let offersHTML = '';
+                offersArray.forEach((offer) => {
+                    let displayInfo = `<span class="text-emerald-400">${offer.price} TK</span>`;
+                    
+                    if (productId === 'id_code_topup') {
+                        displayInfo = `<span class="font-semibold">${offer.diamonds} Diamonds</span> - ${displayInfo}`;
+                    } else if (productId === 'level_up_pass' || productId === 'evo_access') {
+                        displayInfo = `<span class="font-semibold">World Number: ${offer.world_number}</span> - ${displayInfo}`;
+                    } else if (productId === 'weekly_lite') {
+                        displayInfo = `<span class="font-semibold">Weekly Lite ${offer.amount}</span> - ${displayInfo}`;
+                    } else if (productId === 'weekly_monthly') {
+                         displayInfo = `<span class="font-semibold">Weekly: ${offer.weekly_amount}, Monthly: ${offer.monthly_amount}</span> - ${displayInfo}`;
+                    }
+
+                    offersHTML += `
+                        <div class="flex justify-between items-center bg-gray-700 p-3 rounded-md">
+                            <div>
+                                ${displayInfo}
+                            </div>
+                            <button data-id="${offer.id}" class="delete-offer-btn bg-red-600 hover:bg-red-700 text-white text-xs font-bold py-1 px-2 rounded">Delete</button>
+                        </div>
+                    `;
+                });
+                offersListContainer.innerHTML = offersHTML;
+            }, (error) => {
+                 console.error("Error listening for offers:", error);
+                 offersListContainer.innerHTML = '<p class="text-red-500">Error fetching offers.</p>';
+            });
+        }
+        
+        // Delete Offer
+        offersListContainer.addEventListener('click', async (e) => {
+             if (e.target.classList.contains('delete-offer-btn')) {
+                 const offerId = e.target.dataset.id;
+                 const productId = productIdSelect.value;
+                 
+                 if (!auth.currentUser) {
+                    alert("Not authenticated. Please log in again.");
+                    showLogin();
+                    return;
+                 }
+
+                 if (confirm("Are you sure you want to delete this offer?")) {
+                     try {
+                         const offerRef = ref(database, 'products/' + productId + '/offers/' + offerId);
+                         await remove(offerRef);
+                     } catch (error) {
+                         console.error("Error removing offer: ", error);
+                         alert("Failed to delete offer.");
+                     }
+                 }
+             }
+        });
+
+        // NEW: LISTEN FOR AND DISPLAY PENDING DEPOSITS
+        function listenForPendingDeposits() {
+            if (pendingDepositsRef) {
+                onValue(pendingDepositsRef, () => {}); // Detach listener
+            }
+
+            pendingDepositsRef = ref(database, 'add_money_requests');
+
+            onValue(pendingDepositsRef, (snapshot) => {
+                const deposits = snapshot.val();
+                if (!deposits) {
+                    pendingDepositsListContainer.innerHTML = '<p class="text-gray-400">No pending deposits found.</p>';
+                    return;
+                }
+
+                let depositsArray = Object.keys(deposits).map(key => ({
+                    id: key,
+                    ...deposits[key]
+                })).filter(deposit => deposit.status === 'pending');
+
+                if (depositsArray.length === 0) {
+                     pendingDepositsListContainer.innerHTML = '<p class="text-gray-400">No pending deposits found.</p>';
+                     return;
+                }
+
+                let depositsHTML = '';
+                depositsArray.forEach((deposit) => {
+                    // Convert the timestamp to a readable format
+                    const timestamp = deposit.timestamp ? new Date(deposit.timestamp).toLocaleString() : 'N/A';
+
+                    depositsHTML += `
+                        <div class="bg-gray-700 p-4 rounded-lg border border-gray-600 space-y-2">
+                            <div class="flex justify-between items-center">
+                                <h3 class="text-lg font-semibold text-white">Deposit Request</h3>
+                                <span class="text-xs text-gray-400">ID: ${deposit.id}</span>
+                            </div>
+                            <div class="grid grid-cols-2 gap-2 text-sm">
+                                <div>
+                                    <p class="text-gray-400">User ID:</p>
+                                    <p class="font-medium text-emerald-400 truncate" title="${deposit.userId}">${deposit.userId}</p>
+                                </div>
+                                <div>
+                                    <p class="text-gray-400">Amount:</p>
+                                    <p class="font-medium text-white">${deposit.amount} TK</p>
+                                </div>
+                                <div>
+                                    <p class="text-gray-400">Transaction ID:</p>
+                                    <p class="font-medium text-white">${deposit.transactionId}</p>
+                                </div>
+                                <div>
+                                    <p class="text-gray-400">Method:</p>
+                                    <p class="font-medium text-white">${deposit.paymentMethod}</p>
+                                </div>
+                            </div>
+                            <div class="mt-4 flex space-x-2">
+                                <button data-id="${deposit.id}" data-user-id="${deposit.userId}" data-amount="${deposit.amount}" class="accept-deposit-btn flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 px-4 rounded-md transition-colors">Accept</button>
+                                <button data-id="${deposit.id}" class="reject-deposit-btn flex-1 bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-md transition-colors">Reject</button>
+                            </div>
+                        </div>
+                    `;
+                });
+                pendingDepositsListContainer.innerHTML = depositsHTML;
+            }, (error) => {
+                console.error("Error listening for pending deposits:", error);
+                pendingDepositsListContainer.innerHTML = '<p class="text-red-500">Error fetching deposits.</p>';
+            });
+        }
+        
+        // NEW: HANDLE ACCEPT/REJECT ACTIONS
+        pendingDepositsListContainer.addEventListener('click', async (e) => {
+            const authUser = auth.currentUser;
+            if (!authUser) {
+                alert("Not authenticated. Please log in again.");
+                showLogin();
+                return;
+            }
+
+            if (e.target.classList.contains('accept-deposit-btn')) {
+                const depositId = e.target.dataset.id;
+                const userId = e.target.dataset.userId;
+                const amount = parseFloat(e.target.dataset.amount);
+
+                if (confirm("Are you sure you want to accept this deposit?")) {
+                    try {
+                        const depositRef = ref(database, 'add_money_requests/' + depositId);
+                        const userBalanceRef = ref(database, 'users/' + userId + '/balance');
+
+                        // Atomically update user balance
+                        const userSnapshot = await get(userBalanceRef);
+                        const currentBalance = userSnapshot.exists() ? userSnapshot.val() : 0;
+                        const newBalance = currentBalance + amount;
+                        await set(userBalanceRef, newBalance);
+
+                        // Update the status of the request
+                        await set(ref(database, 'add_money_requests/' + depositId + '/status'), 'accepted');
+                        await set(ref(database, 'add_money_requests/' + depositId + '/acceptedAt'), serverTimestamp());
+                        
+                        alert("Deposit accepted and user balance updated.");
+                    } catch (error) {
+                        console.error("Error accepting deposit: ", error);
+                        alert("Failed to accept deposit. Check console for details.");
+                    }
+                }
+            } else if (e.target.classList.contains('reject-deposit-btn')) {
+                const depositId = e.target.dataset.id;
+                if (confirm("Are you sure you want to reject this deposit?")) {
+                    try {
+                        await set(ref(database, 'add_money_requests/' + depositId + '/status'), 'rejected');
+                        await set(ref(database, 'add_money_requests/' + depositId + '/rejectedAt'), serverTimestamp());
+                        alert("Deposit rejected.");
+                    } catch (error) {
+                        console.error("Error rejecting deposit: ", error);
+                        alert("Failed to reject deposit.");
+                    }
+                }
+            }
+        });
+    </script>
 </body>
 </html>
