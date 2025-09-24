@@ -9,106 +9,143 @@
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #111827;
+            background-color: #0d1117;
+        }
+        .card {
+            background-color: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+        }
+        .header {
+            border-bottom: 1px solid #30363d;
+            padding-bottom: 1rem;
+        }
+        .btn-primary {
+            background-color: #238636;
+            color: #c9d1d9;
+            transition: background-color 0.2s ease-in-out;
+        }
+        .btn-primary:hover {
+            background-color: #2ea043;
+        }
+        .btn-danger {
+            background-color: #da3633;
+            color: #c9d1d9;
+            transition: background-color 0.2s ease-in-out;
+        }
+        .btn-danger:hover {
+            background-color: #f85149;
         }
     </style>
 </head>
 <body class="text-gray-200">
 
     <div id="admin-login" class="min-h-screen flex items-center justify-center">
-        <div class="bg-gray-800 w-full max-w-sm p-8 rounded-lg shadow-xl border border-gray-700">
-            <h1 class="text-2xl font-bold text-center text-emerald-400 mb-6">Admin Login</h1>
+        <div class="card w-full max-w-md shadow-2xl">
+            <h1 class="text-3xl font-bold text-center text-emerald-400 mb-6">Admin Login</h1>
             <form id="admin-login-form">
                 <div class="mb-6">
-                    <label for="admin-password" class="block text-sm font-medium text-gray-300 mb-2">Password</label>
-                    <input type="password" id="admin-password" required class="w-full bg-gray-700 border border-gray-600 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                    <label for="admin-password" class="block text-sm font-medium text-gray-400 mb-2">Password</label>
+                    <input type="password" id="admin-password" required class="w-full bg-gray-800 border border-gray-700 rounded-md py-2 px-4 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500">
                 </div>
                 <p id="admin-login-error" class="text-red-500 text-sm text-center mb-4"></p>
-                <button type="submit" class="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-2 px-4 rounded-md transition-colors">Login</button>
+                <button type="submit" class="w-full btn-primary font-bold py-2 px-4 rounded-md">Login</button>
             </form>
         </div>
     </div>
 
-    <div id="admin-dashboard" class="hidden container mx-auto p-8">
-        <div class="flex justify-between items-center mb-8">
-            <h1 class="text-3xl font-bold text-emerald-400">Admin Dashboard</h1>
-            <button id="admin-logout-btn" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-md text-sm transition-colors">Logout</button>
+    <div id="admin-dashboard" class="hidden container mx-auto p-8 lg:p-12">
+        <div class="flex justify-between items-center header mb-8">
+            <h1 class="text-4xl font-bold text-emerald-400">Admin Dashboard</h1>
+            <button id="admin-logout-btn" class="btn-danger font-bold py-2 px-4 rounded-md text-sm">Logout</button>
         </div>
 
-        <div class="bg-gray-800 p-6 rounded-lg border border-gray-700 mb-8">
-            <h2 class="text-xl font-semibold mb-4 text-white">Add New Topup Offer</h2>
-            <form id="add-offer-form" class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div>
-                    <label for="product-id" class="block text-sm text-gray-400">Product ID</label>
-                    <select id="product-id" required class="w-full mt-1 bg-gray-700 border border-gray-600 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500">
-                        <option value="id_code_topup">ID Code Topup</option>
-                        <option value="level_up_pass">LEVEL UP PASS</option>
-                        <option value="evo_access">EVO ACCESS</option>
-                        <option value="weekly_lite">Weekly Lite</option>
-                        <option value="weekly_monthly">Weekly/Monthly Offer</option>
-                    </select>
-                </div>
-                <div id="diamond-field">
-                    <label for="diamond-amount" class="block text-sm text-gray-400">Diamond Amount</label>
-                    <input type="number" id="diamond-amount" placeholder="e.g., 100" class="w-full mt-1 bg-gray-700 border border-gray-600 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500">
-                </div>
-                <div id="price-field">
-                    <label for="offer-price" class="block text-sm text-gray-400">Price (TK)</label>
-                    <input type="number" id="offer-price" placeholder="e.g., 85" required class="w-full mt-1 bg-gray-700 border border-gray-600 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500">
-                </div>
-                <div id="world-number-field" class="hidden md:col-span-3">
-                    <label for="world-number" class="block text-sm text-gray-400">World Number</label>
-                    <input type="text" id="world-number" placeholder="e.g., world-20" class="w-full mt-1 bg-gray-700 border border-gray-600 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500">
-                </div>
-                <div id="weekly-lite-field" class="hidden">
-                    <label for="weekly-lite-amount" class="block text-sm text-gray-400">Weekly Lite Amount</label>
-                    <select id="weekly-lite-amount" class="w-full mt-1 bg-gray-700 border border-gray-600 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500">
-                        <option value="1x">1x</option>
-                        <option value="2x">2x</option>
-                        <option value="3x">3x</option>
-                        <option value="4x">4x</option>
-                    </select>
-                </div>
-                <div id="weekly-monthly-field" class="hidden md:col-span-2 grid grid-cols-2 gap-4">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div class="card">
+                <h2 class="text-xl font-semibold mb-6 text-white">Add New Topup Offer</h2>
+                <form id="add-offer-form" class="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <div>
-                        <label for="weekly-amount" class="block text-sm text-gray-400">Weekly Multiplier</label>
-                        <select id="weekly-amount" class="w-full mt-1 bg-gray-700 border border-gray-600 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                        <label for="product-id" class="block text-sm text-gray-400">Product ID</label>
+                        <select id="product-id" required class="w-full mt-1 bg-gray-800 border border-gray-700 rounded-md py-2 px-4 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                            <option value="id_code_topup">ID Code Topup</option>
+                            <option value="level_up_pass">LEVEL UP PASS</option>
+                            <option value="evo_access">EVO ACCESS</option>
+                            <option value="weekly_lite">Weekly Lite</option>
+                            <option value="weekly_monthly">Weekly/Monthly Offer</option>
+                        </select>
+                    </div>
+                    <div id="diamond-field">
+                        <label for="diamond-amount" class="block text-sm text-gray-400">Diamond Amount</label>
+                        <input type="number" id="diamond-amount" placeholder="e.g., 100" class="w-full mt-1 bg-gray-800 border border-gray-700 rounded-md py-2 px-4 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                    </div>
+                    <div id="price-field">
+                        <label for="offer-price" class="block text-sm text-gray-400">Price (TK)</label>
+                        <input type="number" id="offer-price" placeholder="e.g., 85" required class="w-full mt-1 bg-gray-800 border border-gray-700 rounded-md py-2 px-4 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                    </div>
+                    <div id="world-number-field" class="hidden md:col-span-3">
+                        <label for="world-number" class="block text-sm text-gray-400">World Number</label>
+                        <input type="text" id="world-number" placeholder="e.g., world-20" class="w-full mt-1 bg-gray-800 border border-gray-700 rounded-md py-2 px-4 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                    </div>
+                    <div id="weekly-lite-field" class="hidden">
+                        <label for="weekly-lite-amount" class="block text-sm text-gray-400">Weekly Lite Amount</label>
+                        <select id="weekly-lite-amount" class="w-full mt-1 bg-gray-800 border border-gray-700 rounded-md py-2 px-4 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500">
                             <option value="1x">1x</option>
                             <option value="2x">2x</option>
                             <option value="3x">3x</option>
                             <option value="4x">4x</option>
                         </select>
                     </div>
-                    <div>
-                        <label for="monthly-amount" class="block text-sm text-gray-400">Monthly Multiplier</label>
-                        <select id="monthly-amount" class="w-full mt-1 bg-gray-700 border border-gray-600 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500">
-                            <option value="1x">1x</option>
-                            <option value="2x">2x</option>
-                            <option value="3x">3x</option>
-                            <option value="4x">4x</option>
-                        </select>
+                    <div id="weekly-monthly-field" class="hidden md:col-span-2 grid grid-cols-2 gap-4">
+                        <div>
+                            <label for="weekly-amount" class="block text-sm text-gray-400">Weekly Multiplier</label>
+                            <select id="weekly-amount" class="w-full mt-1 bg-gray-800 border border-gray-700 rounded-md py-2 px-4 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                                <option value="0x">0x</option>
+                                <option value="1x">1x</option>
+                                <option value="2x">2x</option>
+                                <option value="3x">3x</option>
+                                <option value="4x">4x</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="monthly-amount" class="block text-sm text-gray-400">Monthly Multiplier</label>
+                            <select id="monthly-amount" class="w-full mt-1 bg-gray-800 border border-gray-700 rounded-md py-2 px-4 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                                <option value="0x">0x</option>
+                                <option value="1x">1x</option>
+                                <option value="2x">2x</option>
+                                <option value="3x">3x</option>
+                                <option value="4x">4x</option>
+                            </select>
+                        </div>
                     </div>
+                    <div class="md:col-span-3">
+                        <button type="submit" class="w-full btn-primary font-bold py-2 px-4 rounded-md">Add Offer</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="card">
+                <h2 class="text-xl font-semibold mb-6 text-white">Current Offers (<span id="current-offers-title">ID Code Topup</span>)</h2>
+                <div id="offers-list" class="space-y-4">
+                    <p class="text-gray-400">Loading offers...</p>
                 </div>
-                <div class="md:col-span-3">
-                    <button type="submit" class="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-2 px-4 rounded-md transition-colors">Add Offer</button>
-                </div>
-            </form>
+            </div>
         </div>
 
-        <div class="bg-gray-800 p-6 rounded-lg border border-gray-700 mb-8">
-            <h2 class="text-xl font-semibold mb-4 text-white">Current Offers (<span id="current-offers-title">ID Code Topup</span>)</h2>
-            <div id="offers-list" class="space-y-3">
-                <p>Loading offers...</p>
-                </div>
-        </div>
-
-        <div class="bg-gray-800 p-6 rounded-lg border border-gray-700">
-            <h2 class="text-xl font-semibold mb-4 text-white">Pending Payment Deposits</h2>
+        <div class="card mt-8">
+            <h2 class="text-xl font-semibold mb-6 text-white">Pending Payment Deposits</h2>
             <div id="pending-deposits-list" class="space-y-4">
                 <p class="text-gray-400">No pending deposits found.</p>
             </div>
         </div>
+
+        <div class="card mt-8">
+            <h2 class="text-xl font-semibold mb-6 text-white">Pending Orders</h2>
+            <div id="pending-orders-list" class="space-y-4">
+                <p class="text-gray-400">No pending orders found.</p>
+            </div>
         </div>
+    </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
@@ -164,12 +201,14 @@
         const weeklyAmountInput = document.getElementById('weekly-amount');
         const monthlyAmountInput = document.getElementById('monthly-amount');
 
-        // NEW ELEMENT REFERENCES
         const pendingDepositsListContainer = document.getElementById('pending-deposits-list');
+        const pendingOrdersListContainer = document.getElementById('pending-orders-list');
 
         const ADMIN_PASSWORD = "admin123";
         let currentOffersRef;
         let pendingDepositsRef;
+        let pendingOrdersRef;
+        let instantPayOrdersRef;
 
         // Admin Authentication
         adminLoginForm.addEventListener('submit', async (e) => {
@@ -199,7 +238,8 @@
             adminLoginSection.classList.add('hidden');
             adminDashboardSection.classList.remove('hidden');
             listenForOffers();
-            listenForPendingDeposits(); 
+            listenForPendingDeposits();
+            listenForPendingOrders();
         }
 
         function showLogin() {
@@ -277,10 +317,12 @@
             } else if (productId === 'weekly_monthly') {
                 const weeklyAmount = addOfferForm['weekly-amount'].value;
                 const monthlyAmount = addOfferForm['monthly-amount'].value;
-                if (!weeklyAmount || !monthlyAmount) {
-                    alert("Please select both Weekly and Monthly amounts.");
+
+                if (weeklyAmount === '0x' && monthlyAmount === '0x') {
+                    alert("At least one multiplier (Weekly or Monthly) must be greater than 0x.");
                     return;
                 }
+
                 offerData.weekly_amount = weeklyAmount;
                 offerData.monthly_amount = monthlyAmount;
             }
@@ -313,9 +355,8 @@
         // Listen for and Display Offers in Realtime
         function listenForOffers() {
             const productId = productIdSelect.value;
-            // Detach previous listener if it exists
             if (currentOffersRef) {
-                onValue(currentOffersRef, () => {}); // Detach listener
+                onValue(currentOffersRef, () => {});
             }
 
             currentOffersRef = ref(database, 'products/' + productId + '/offers');
@@ -323,7 +364,7 @@
             onValue(currentOffersRef, (snapshot) => {
                 const offers = snapshot.val();
                 if (!offers) {
-                    offersListContainer.innerHTML = '<p>No offers found.</p>';
+                    offersListContainer.innerHTML = '<p class="text-gray-400">No offers found.</p>';
                     return;
                 }
 
@@ -332,7 +373,6 @@
                     ...offers[key]
                 }));
 
-                // Sort offers
                 if (productId === 'id_code_topup') {
                     offersArray.sort((a, b) => a.diamonds - b.diamonds);
                 } else {
@@ -341,7 +381,7 @@
 
                 let offersHTML = '';
                 offersArray.forEach((offer) => {
-                    let displayInfo = `<span class="text-emerald-400">${offer.price} TK</span>`;
+                    let displayInfo = `<span class="text-emerald-400 font-bold">${offer.price} TK</span>`;
                     
                     if (productId === 'id_code_topup') {
                         displayInfo = `<span class="font-semibold">${offer.diamonds} Diamonds</span> - ${displayInfo}`;
@@ -354,11 +394,11 @@
                     }
 
                     offersHTML += `
-                        <div class="flex justify-between items-center bg-gray-700 p-3 rounded-md">
+                        <div class="flex justify-between items-center bg-gray-800 p-4 rounded-md border border-gray-700">
                             <div>
                                 ${displayInfo}
                             </div>
-                            <button data-id="${offer.id}" class="delete-offer-btn bg-red-600 hover:bg-red-700 text-white text-xs font-bold py-1 px-2 rounded">Delete</button>
+                            <button data-id="${offer.id}" class="delete-offer-btn btn-danger text-xs font-bold py-1 px-2 rounded">Delete</button>
                         </div>
                     `;
                 });
@@ -394,14 +434,25 @@
         });
 
         // NEW: LISTEN FOR AND DISPLAY PENDING DEPOSITS
+        async function fetchUsername(userId) {
+            try {
+                const userRef = ref(database, 'users/' + userId + '/username');
+                const snapshot = await get(userRef);
+                return snapshot.exists() ? snapshot.val() : 'Unknown User';
+            } catch (error) {
+                console.error("Error fetching username:", error);
+                return 'Unknown User';
+            }
+        }
+        
         function listenForPendingDeposits() {
             if (pendingDepositsRef) {
-                onValue(pendingDepositsRef, () => {}); // Detach listener
+                onValue(pendingDepositsRef, () => {});
             }
 
             pendingDepositsRef = ref(database, 'add_money_requests');
 
-            onValue(pendingDepositsRef, (snapshot) => {
+            onValue(pendingDepositsRef, async (snapshot) => {
                 const deposits = snapshot.val();
                 if (!deposits) {
                     pendingDepositsListContainer.innerHTML = '<p class="text-gray-400">No pending deposits found.</p>';
@@ -419,20 +470,24 @@
                 }
 
                 let depositsHTML = '';
-                depositsArray.forEach((deposit) => {
-                    // Convert the timestamp to a readable format
+                for (const deposit of depositsArray) {
+                    const username = await fetchUsername(deposit.userId);
                     const timestamp = deposit.timestamp ? new Date(deposit.timestamp).toLocaleString() : 'N/A';
 
                     depositsHTML += `
-                        <div class="bg-gray-700 p-4 rounded-lg border border-gray-600 space-y-2">
-                            <div class="flex justify-between items-center">
+                        <div class="card space-y-3">
+                            <div class="flex justify-between items-center pb-2 border-b border-gray-700">
                                 <h3 class="text-lg font-semibold text-white">Deposit Request</h3>
                                 <span class="text-xs text-gray-400">ID: ${deposit.id}</span>
                             </div>
-                            <div class="grid grid-cols-2 gap-2 text-sm">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
                                 <div>
                                     <p class="text-gray-400">User ID:</p>
                                     <p class="font-medium text-emerald-400 truncate" title="${deposit.userId}">${deposit.userId}</p>
+                                </div>
+                                <div>
+                                    <p class="text-gray-400">Username:</p>
+                                    <p class="font-medium text-white">${username}</p>
                                 </div>
                                 <div>
                                     <p class="text-gray-400">Amount:</p>
@@ -446,14 +501,18 @@
                                     <p class="text-gray-400">Method:</p>
                                     <p class="font-medium text-white">${deposit.paymentMethod}</p>
                                 </div>
+                                <div>
+                                    <p class="text-gray-400">Requested At:</p>
+                                    <p class="font-medium text-white">${timestamp}</p>
+                                </div>
                             </div>
                             <div class="mt-4 flex space-x-2">
-                                <button data-id="${deposit.id}" data-user-id="${deposit.userId}" data-amount="${deposit.amount}" class="accept-deposit-btn flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 px-4 rounded-md transition-colors">Accept</button>
-                                <button data-id="${deposit.id}" class="reject-deposit-btn flex-1 bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-md transition-colors">Reject</button>
+                                <button data-id="${deposit.id}" data-user-id="${deposit.userId}" data-amount="${deposit.amount}" class="accept-deposit-btn flex-1 btn-primary font-bold py-2 px-4 rounded-md">Accept</button>
+                                <button data-id="${deposit.id}" class="reject-deposit-btn flex-1 btn-danger font-bold py-2 px-4 rounded-md">Reject</button>
                             </div>
                         </div>
                     `;
-                });
+                }
                 pendingDepositsListContainer.innerHTML = depositsHTML;
             }, (error) => {
                 console.error("Error listening for pending deposits:", error);
@@ -461,7 +520,7 @@
             });
         }
         
-        // NEW: HANDLE ACCEPT/REJECT ACTIONS
+        // NEW: HANDLE ACCEPT/REJECT ACTIONS FOR DEPOSITS
         pendingDepositsListContainer.addEventListener('click', async (e) => {
             const authUser = auth.currentUser;
             if (!authUser) {
@@ -477,16 +536,12 @@
 
                 if (confirm("Are you sure you want to accept this deposit?")) {
                     try {
-                        const depositRef = ref(database, 'add_money_requests/' + depositId);
                         const userBalanceRef = ref(database, 'users/' + userId + '/balance');
-
-                        // Atomically update user balance
                         const userSnapshot = await get(userBalanceRef);
                         const currentBalance = userSnapshot.exists() ? userSnapshot.val() : 0;
                         const newBalance = currentBalance + amount;
                         await set(userBalanceRef, newBalance);
 
-                        // Update the status of the request
                         await set(ref(database, 'add_money_requests/' + depositId + '/status'), 'accepted');
                         await set(ref(database, 'add_money_requests/' + depositId + '/acceptedAt'), serverTimestamp());
                         
@@ -506,6 +561,155 @@
                     } catch (error) {
                         console.error("Error rejecting deposit: ", error);
                         alert("Failed to reject deposit.");
+                    }
+                }
+            }
+        });
+
+        // NEW: LISTEN FOR AND DISPLAY PENDING ORDERS
+        function listenForPendingOrders() {
+            if (pendingOrdersRef || instantPayOrdersRef) {
+                onValue(pendingOrdersRef, () => {});
+                onValue(instantPayOrdersRef, () => {});
+            }
+
+            pendingOrdersRef = ref(database, 'orders');
+            instantPayOrdersRef = ref(database, 'instant_pay_orders');
+            
+            const fetchAndDisplayOrders = () => {
+                const ordersPromise = get(pendingOrdersRef);
+                const instantPayOrdersPromise = get(instantPayOrdersRef);
+
+                Promise.all([ordersPromise, instantPayOrdersPromise]).then(async ([ordersSnapshot, instantPayOrdersSnapshot]) => {
+                    const allOrders = [];
+
+                    if (ordersSnapshot.exists()) {
+                        const ordersData = ordersSnapshot.val();
+                        Object.keys(ordersData).forEach(key => {
+                            if (ordersData[key].status === 'pending') {
+                                allOrders.push({ id: key, ...ordersData[key], path: 'orders' });
+                            }
+                        });
+                    }
+
+                    if (instantPayOrdersSnapshot.exists()) {
+                        const instantPayData = instantPayOrdersSnapshot.val();
+                        Object.keys(instantPayData).forEach(key => {
+                            if (instantPayData[key].status === 'pending') {
+                                allOrders.push({ id: key, ...instantPayData[key], path: 'instant_pay_orders' });
+                            }
+                        });
+                    }
+                    
+                    if (allOrders.length === 0) {
+                        pendingOrdersListContainer.innerHTML = '<p class="text-gray-400">No pending orders found.</p>';
+                        return;
+                    }
+
+                    let ordersHTML = '';
+                    for (const order of allOrders) {
+                        const username = await fetchUsername(order.userId);
+                        const timestamp = order.timestamp ? new Date(order.timestamp).toLocaleString() : 'N/A';
+
+                        ordersHTML += `
+                             <div class="card space-y-3">
+                                 <div class="flex justify-between items-center pb-2 border-b border-gray-700">
+                                     <h3 class="text-lg font-semibold text-white">Order Request</h3>
+                                     <span class="text-xs text-gray-400">ID: ${order.id}</span>
+                                 </div>
+                                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
+                                     <div>
+                                         <p class="text-gray-400">User ID:</p>
+                                         <p class="font-medium text-emerald-400 truncate" title="${order.userId}">${order.userId}</p>
+                                     </div>
+                                     <div>
+                                         <p class="text-gray-400">Username:</p>
+                                         <p class="font-medium text-white">${username}</p>
+                                     </div>
+                                     <div>
+                                         <p class="text-gray-400">Amount:</p>
+                                         <p class="font-medium text-white">${order.amount} TK</p>
+                                     </div>
+                                     <div>
+                                         <p class="text-gray-400">Product Name:</p>
+                                         <p class="font-medium text-white">${order.productName}</p>
+                                     </div>
+                                     <div>
+                                         <p class="text-gray-400">Player ID:</p>
+                                         <p class="font-medium text-white">${order.playerId}</p>
+                                     </div>
+                                     <div>
+                                         <p class="text-gray-400">Payment Method:</p>
+                                         <p class="font-medium text-white">${order.paymentMethod}</p>
+                                     </div>
+                                     ${order.transactionId ? `
+                                     <div>
+                                         <p class="text-gray-400">Transaction ID:</p>
+                                         <p class="font-medium text-white">${order.transactionId}</p>
+                                     </div>
+                                     ` : ''}
+                                     <div>
+                                         <p class="text-gray-400">Requested At:</p>
+                                         <p class="font-medium text-white">${timestamp}</p>
+                                     </div>
+                                 </div>
+                                 <div class="mt-4 flex space-x-2">
+                                     <button data-id="${order.id}" data-path="${order.path}" class="complete-order-btn flex-1 btn-primary font-bold py-2 px-4 rounded-md">Complete</button>
+                                     <button data-id="${order.id}" data-path="${order.path}" class="cancel-order-btn flex-1 btn-danger font-bold py-2 px-4 rounded-md">Cancel</button>
+                                 </div>
+                             </div>
+                         `;
+                    }
+                    pendingOrdersListContainer.innerHTML = ordersHTML;
+                }).catch(error => {
+                    console.error("Error fetching pending orders:", error);
+                    pendingOrdersListContainer.innerHTML = '<p class="text-red-500">Error fetching orders.</p>';
+                });
+            };
+
+            onValue(pendingOrdersRef, fetchAndDisplayOrders, (error) => {
+                console.error("Error listening to 'orders':", error);
+            });
+            onValue(instantPayOrdersRef, fetchAndDisplayOrders, (error) => {
+                console.error("Error listening to 'instant_pay_orders':", error);
+            });
+        }
+        
+        // NEW: HANDLE COMPLETE/CANCEL ACTIONS FOR ORDERS
+        pendingOrdersListContainer.addEventListener('click', async (e) => {
+            const authUser = auth.currentUser;
+            if (!authUser) {
+                alert("Not authenticated. Please log in again.");
+                showLogin();
+                return;
+            }
+
+            if (e.target.classList.contains('complete-order-btn')) {
+                const orderId = e.target.dataset.id;
+                const orderPath = e.target.dataset.path;
+
+                if (confirm("Are you sure you want to complete this order?")) {
+                    try {
+                        await set(ref(database, orderPath + '/' + orderId + '/status'), 'completed');
+                        await set(ref(database, orderPath + '/' + orderId + '/completedAt'), serverTimestamp());
+                        alert("Order completed successfully.");
+                    } catch (error) {
+                        console.error("Error completing order: ", error);
+                        alert("Failed to complete order. Check console for details.");
+                    }
+                }
+            } else if (e.target.classList.contains('cancel-order-btn')) {
+                const orderId = e.target.dataset.id;
+                const orderPath = e.target.dataset.path;
+                
+                if (confirm("Are you sure you want to cancel this order? This action cannot be undone.")) {
+                    try {
+                        await set(ref(database, orderPath + '/' + orderId + '/status'), 'cancelled');
+                        await set(ref(database, orderPath + '/' + orderId + '/cancelledAt'), serverTimestamp());
+                        alert("Order cancelled successfully.");
+                    } catch (error) {
+                        console.error("Error cancelling order: ", error);
+                        alert("Failed to cancel order.");
                     }
                 }
             }
