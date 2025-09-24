@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Panel - GG Bazar</title>
+    <title>Admin Panel - PZ SHOP</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -37,6 +37,33 @@
         .btn-danger:hover {
             background-color: #f85149;
         }
+        .btn-warning {
+            background-color: #d29922;
+            color: #c9d1d9;
+            transition: background-color 0.2s ease-in-out;
+        }
+        .btn-warning:hover {
+            background-color: #e3b341;
+        }
+        .status-pending {
+            color: #d29922;
+        }
+        .status-completed {
+            color: #238636;
+        }
+        .status-cancelled {
+            color: #da3633;
+        }
+        .order-card {
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+        .order-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+        .stats-card {
+            background: linear-gradient(135deg, #161b22 0%, #1a2029 100%);
+        }
     </style>
 </head>
 <body class="text-gray-200">
@@ -59,6 +86,74 @@
         <div class="flex justify-between items-center header mb-8">
             <h1 class="text-4xl font-bold text-emerald-400">Admin Dashboard</h1>
             <button id="admin-logout-btn" class="btn-danger font-bold py-2 px-4 rounded-md text-sm">Logout</button>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 mb-8">
+            <div class="stats-card card">
+                <div class="flex items-center">
+                    <div class="p-3 rounded-full bg-emerald-900/20 mr-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                        </svg>
+                    </div>
+                    <div>
+                        <p class="text-sm font-medium text-gray-400">Total Orders</p>
+                        <p id="total-orders" class="text-2xl font-bold text-white">0</p>
+                    </div>
+                </div>
+            </div>
+            <div class="stats-card card">
+                <div class="flex items-center">
+                    <div class="p-3 rounded-full bg-yellow-900/20 mr-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-yellow-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </div>
+                    <div>
+                        <p class="text-sm font-medium text-gray-400">Pending Orders</p>
+                        <p id="pending-orders" class="text-2xl font-bold text-white">0</p>
+                    </div>
+                </div>
+            </div>
+            <div class="stats-card card">
+                <div class="flex items-center">
+                    <div class="p-3 rounded-full bg-blue-900/20 mr-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                        </svg>
+                    </div>
+                    <div>
+                        <p class="text-sm font-medium text-gray-400">Total Users</p>
+                        <p id="total-users" class="text-2xl font-bold text-white">0</p>
+                    </div>
+                </div>
+            </div>
+            <div class="stats-card card">
+                <div class="flex items-center">
+                    <div class="p-3 rounded-full bg-purple-900/20 mr-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </div>
+                    <div>
+                        <p class="text-sm font-medium text-gray-400">Weekly Orders</p>
+                        <p id="weekly-orders" class="text-2xl font-bold text-white">0</p>
+                    </div>
+                </div>
+            </div>
+            <div class="stats-card card">
+                <div class="flex items-center">
+                    <div class="p-3 rounded-full bg-purple-900/20 mr-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </div>
+                    <div>
+                        <p class="text-sm font-medium text-gray-400">Total Income</p>
+                        <p id="total-income" class="text-2xl font-bold text-white">0 TK</p>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -100,21 +195,21 @@
                         <div>
                             <label for="weekly-amount" class="block text-sm text-gray-400">Weekly Multiplier</label>
                             <select id="weekly-amount" class="w-full mt-1 bg-gray-800 border border-gray-700 rounded-md py-2 px-4 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500">
-                                <option value="0x">0x</option>
                                 <option value="1x">1x</option>
                                 <option value="2x">2x</option>
                                 <option value="3x">3x</option>
                                 <option value="4x">4x</option>
+                                <option value="0x">0x</option>
                             </select>
                         </div>
                         <div>
                             <label for="monthly-amount" class="block text-sm text-gray-400">Monthly Multiplier</label>
                             <select id="monthly-amount" class="w-full mt-1 bg-gray-800 border border-gray-700 rounded-md py-2 px-4 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500">
-                                <option value="0x">0x</option>
                                 <option value="1x">1x</option>
                                 <option value="2x">2x</option>
                                 <option value="3x">3x</option>
                                 <option value="4x">4x</option>
+                                <option value="0x">0x</option>
                             </select>
                         </div>
                     </div>
@@ -133,16 +228,32 @@
         </div>
 
         <div class="card mt-8">
-            <h2 class="text-xl font-semibold mb-6 text-white">Pending Payment Deposits</h2>
-            <div id="pending-deposits-list" class="space-y-4">
-                <p class="text-gray-400">No pending deposits found.</p>
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
+                <h2 class="text-xl font-semibold text-white">Order Management</h2>
+                <div class="flex space-x-2 mt-2 md:mt-0">
+                    <button id="refresh-orders-btn" class="btn-primary font-bold py-2 px-4 rounded-md text-sm flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                        </svg>
+                        Refresh
+                    </button>
+                    <select id="order-filter" class="bg-gray-800 border border-gray-700 rounded-md py-2 px-4 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500 text-sm">
+                        <option value="all">All Orders</option>
+                        <option value="pending">Pending</option>
+                        <option value="completed">Completed</option>
+                        <option value="cancelled">Cancelled</option>
+                    </select>
+                </div>
+            </div>
+            <div id="orders-list" class="space-y-4">
+                <p class="text-gray-400">Loading orders...</p>
             </div>
         </div>
 
         <div class="card mt-8">
-            <h2 class="text-xl font-semibold mb-6 text-white">Pending Orders</h2>
-            <div id="pending-orders-list" class="space-y-4">
-                <p class="text-gray-400">No pending orders found.</p>
+            <h2 class="text-xl font-semibold mb-6 text-white">Pending Payment Deposits</h2>
+            <div id="pending-deposits-list" class="space-y-4">
+                <p class="text-gray-400">No pending deposits found.</p>
             </div>
         </div>
     </div>
@@ -202,13 +313,23 @@
         const monthlyAmountInput = document.getElementById('monthly-amount');
 
         const pendingDepositsListContainer = document.getElementById('pending-deposits-list');
-        const pendingOrdersListContainer = document.getElementById('pending-orders-list');
+        const ordersListContainer = document.getElementById('orders-list');
+        const orderFilter = document.getElementById('order-filter');
+        const refreshOrdersBtn = document.getElementById('refresh-orders-btn');
+        
+        // Stats elements
+        const totalOrdersElement = document.getElementById('total-orders');
+        const pendingOrdersElement = document.getElementById('pending-orders');
+        const totalUsersElement = document.getElementById('total-users');
+        const weeklyOrdersElement = document.getElementById('weekly-orders');
+        const totalIncomeElement = document.getElementById('total-income');
 
         const ADMIN_PASSWORD = "admin123";
         let currentOffersRef;
         let pendingDepositsRef;
-        let pendingOrdersRef;
         let instantPayOrdersRef;
+        let ordersRef;
+        let usersRef;
 
         // Admin Authentication
         adminLoginForm.addEventListener('submit', async (e) => {
@@ -239,7 +360,7 @@
             adminDashboardSection.classList.remove('hidden');
             listenForOffers();
             listenForPendingDeposits();
-            listenForPendingOrders();
+            listenForOrdersAndUsers();
         }
 
         function showLogin() {
@@ -279,7 +400,6 @@
             listenForOffers();
         });
 
-
         // Add Offer
         addOfferForm.addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -317,12 +437,14 @@
             } else if (productId === 'weekly_monthly') {
                 const weeklyAmount = addOfferForm['weekly-amount'].value;
                 const monthlyAmount = addOfferForm['monthly-amount'].value;
-
-                if (weeklyAmount === '0x' && monthlyAmount === '0x') {
-                    alert("At least one multiplier (Weekly or Monthly) must be greater than 0x.");
+                if (!weeklyAmount || !monthlyAmount) {
+                    alert("Please select both Weekly and Monthly amounts.");
                     return;
                 }
-
+                 if (weeklyAmount === '0x' && monthlyAmount === '0x') {
+                    alert("Weekly and Monthly multipliers cannot both be 0x.");
+                    return;
+                }
                 offerData.weekly_amount = weeklyAmount;
                 offerData.monthly_amount = monthlyAmount;
             }
@@ -520,7 +642,7 @@
             });
         }
         
-        // NEW: HANDLE ACCEPT/REJECT ACTIONS FOR DEPOSITS
+        // NEW: HANDLE ACCEPT/REJECT ACTIONS
         pendingDepositsListContainer.addEventListener('click', async (e) => {
             const authUser = auth.currentUser;
             if (!authUser) {
@@ -566,150 +688,228 @@
             }
         });
 
-        // NEW: LISTEN FOR AND DISPLAY PENDING ORDERS
-        function listenForPendingOrders() {
-            if (pendingOrdersRef || instantPayOrdersRef) {
-                onValue(pendingOrdersRef, () => {});
-                onValue(instantPayOrdersRef, () => {});
-            }
-
-            pendingOrdersRef = ref(database, 'orders');
+        // NEW: ORDER MANAGEMENT SECTION
+        async function listenForOrdersAndUsers() {
+            // Listen to instant_pay_orders
             instantPayOrdersRef = ref(database, 'instant_pay_orders');
+            ordersRef = ref(database, 'orders');
+            usersRef = ref(database, 'users');
             
-            const fetchAndDisplayOrders = () => {
-                const ordersPromise = get(pendingOrdersRef);
-                const instantPayOrdersPromise = get(instantPayOrdersRef);
-
-                Promise.all([ordersPromise, instantPayOrdersPromise]).then(async ([ordersSnapshot, instantPayOrdersSnapshot]) => {
-                    const allOrders = [];
-
-                    if (ordersSnapshot.exists()) {
-                        const ordersData = ordersSnapshot.val();
-                        Object.keys(ordersData).forEach(key => {
-                            if (ordersData[key].status === 'pending') {
-                                allOrders.push({ id: key, ...ordersData[key], path: 'orders' });
-                            }
-                        });
-                    }
-
-                    if (instantPayOrdersSnapshot.exists()) {
-                        const instantPayData = instantPayOrdersSnapshot.val();
-                        Object.keys(instantPayData).forEach(key => {
-                            if (instantPayData[key].status === 'pending') {
-                                allOrders.push({ id: key, ...instantPayData[key], path: 'instant_pay_orders' });
-                            }
-                        });
-                    }
-                    
-                    if (allOrders.length === 0) {
-                        pendingOrdersListContainer.innerHTML = '<p class="text-gray-400">No pending orders found.</p>';
-                        return;
-                    }
-
-                    let ordersHTML = '';
-                    for (const order of allOrders) {
-                        const username = await fetchUsername(order.userId);
-                        const timestamp = order.timestamp ? new Date(order.timestamp).toLocaleString() : 'N/A';
-
-                        ordersHTML += `
-                             <div class="card space-y-3">
-                                 <div class="flex justify-between items-center pb-2 border-b border-gray-700">
-                                     <h3 class="text-lg font-semibold text-white">Order Request</h3>
-                                     <span class="text-xs text-gray-400">ID: ${order.id}</span>
-                                 </div>
-                                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
-                                     <div>
-                                         <p class="text-gray-400">User ID:</p>
-                                         <p class="font-medium text-emerald-400 truncate" title="${order.userId}">${order.userId}</p>
-                                     </div>
-                                     <div>
-                                         <p class="text-gray-400">Username:</p>
-                                         <p class="font-medium text-white">${username}</p>
-                                     </div>
-                                     <div>
-                                         <p class="text-gray-400">Amount:</p>
-                                         <p class="font-medium text-white">${order.amount} TK</p>
-                                     </div>
-                                     <div>
-                                         <p class="text-gray-400">Product Name:</p>
-                                         <p class="font-medium text-white">${order.productName}</p>
-                                     </div>
-                                     <div>
-                                         <p class="text-gray-400">Player ID:</p>
-                                         <p class="font-medium text-white">${order.playerId}</p>
-                                     </div>
-                                     <div>
-                                         <p class="text-gray-400">Payment Method:</p>
-                                         <p class="font-medium text-white">${order.paymentMethod}</p>
-                                     </div>
-                                     ${order.transactionId ? `
-                                     <div>
-                                         <p class="text-gray-400">Transaction ID:</p>
-                                         <p class="font-medium text-white">${order.transactionId}</p>
-                                     </div>
-                                     ` : ''}
-                                     <div>
-                                         <p class="text-gray-400">Requested At:</p>
-                                         <p class="font-medium text-white">${timestamp}</p>
-                                     </div>
-                                 </div>
-                                 <div class="mt-4 flex space-x-2">
-                                     <button data-id="${order.id}" data-path="${order.path}" class="complete-order-btn flex-1 btn-primary font-bold py-2 px-4 rounded-md">Complete</button>
-                                     <button data-id="${order.id}" data-path="${order.path}" class="cancel-order-btn flex-1 btn-danger font-bold py-2 px-4 rounded-md">Cancel</button>
-                                 </div>
-                             </div>
-                         `;
-                    }
-                    pendingOrdersListContainer.innerHTML = ordersHTML;
-                }).catch(error => {
-                    console.error("Error fetching pending orders:", error);
-                    pendingOrdersListContainer.innerHTML = '<p class="text-red-500">Error fetching orders.</p>';
-                });
-            };
-
-            onValue(pendingOrdersRef, fetchAndDisplayOrders, (error) => {
-                console.error("Error listening to 'orders':", error);
+            // Listen for changes in orders
+            onValue(instantPayOrdersRef, () => {
+                updateOrdersAndStats();
             });
-            onValue(instantPayOrdersRef, fetchAndDisplayOrders, (error) => {
-                console.error("Error listening to 'instant_pay_orders':", error);
+            
+            onValue(ordersRef, () => {
+                updateOrdersAndStats();
             });
+            
+            // Listen for changes in users to update total user count
+            onValue(usersRef, (snapshot) => {
+                const users = snapshot.val();
+                totalUsersElement.textContent = users ? Object.keys(users).length : 0;
+            });
+            
+            // Add event listener for filter change
+            orderFilter.addEventListener('change', updateOrdersAndStats);
+            
+            // Add event listener for refresh button
+            refreshOrdersBtn.addEventListener('click', updateOrdersAndStats);
         }
         
-        // NEW: HANDLE COMPLETE/CANCEL ACTIONS FOR ORDERS
-        pendingOrdersListContainer.addEventListener('click', async (e) => {
+        async function updateOrdersAndStats() {
+            try {
+                const filterValue = orderFilter.value;
+                const [instantPayOrdersSnapshot, ordersSnapshot] = await Promise.all([
+                    get(instantPayOrdersRef),
+                    get(ordersRef)
+                ]);
+                
+                let allOrders = [];
+                
+                // Process instant_pay_orders
+                const instantPayOrders = instantPayOrdersSnapshot.val();
+                if (instantPayOrders) {
+                    Object.keys(instantPayOrders).forEach(key => {
+                        allOrders.push({
+                            id: key,
+                            source: 'instant_pay_orders',
+                            ...instantPayOrders[key]
+                        });
+                    });
+                }
+                
+                // Process orders
+                const orders = ordersSnapshot.val();
+                if (orders) {
+                    Object.keys(orders).forEach(key => {
+                        allOrders.push({
+                            id: key,
+                            source: 'orders',
+                            ...orders[key]
+                        });
+                    });
+                }
+                
+                // Sort by timestamp (newest first)
+                allOrders.sort((a, b) => {
+                    const timeA = new Date(a.timestamp || 0).getTime();
+                    const timeB = new Date(b.timestamp || 0).getTime();
+                    return timeB - timeA;
+                });
+                
+                // Update stats before filtering
+                updateOrderStats(allOrders);
+                
+                // Filter orders based on selected filter
+                if (filterValue !== 'all') {
+                    allOrders = allOrders.filter(order => order.status === filterValue);
+                }
+                
+                // Display orders
+                if (allOrders.length === 0) {
+                    ordersListContainer.innerHTML = '<p class="text-gray-400">No orders found.</p>';
+                    return;
+                }
+                
+                let ordersHTML = '';
+                for (const order of allOrders) {
+                    const username = await fetchUsername(order.userId);
+                    const timestamp = order.timestamp ? new Date(order.timestamp).toLocaleString() : 'N/A';
+                    
+                    // Determine status badge color
+                    let statusClass = 'status-pending';
+                    if (order.status === 'completed') statusClass = 'status-completed';
+                    if (order.status === 'cancelled') statusClass = 'status-cancelled';
+                    
+                    ordersHTML += `
+                        <div class="order-card card space-y-4">
+                            <div class="flex justify-between items-center pb-2 border-b border-gray-700">
+                                <div>
+                                    <h3 class="text-lg font-semibold text-white">Order #${order.id.substring(0, 8)}</h3>
+                                    <span class="text-xs text-gray-400">Source: ${order.source}</span>
+                                </div>
+                                <span class="text-sm font-medium ${statusClass}">${order.status.toUpperCase()}</span>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                                <div class="space-y-2">
+                                    <div>
+                                        <p class="text-gray-400">User ID:</p>
+                                        <p class="font-medium text-emerald-400 truncate" title="${order.userId}">${order.userId}</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-gray-400">Username:</p>
+                                        <p class="font-medium text-white">${username}</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-gray-400">Player ID:</p>
+                                        <p class="font-medium text-white">${order.playerId || 'N/A'}</p>
+                                    </div>
+                                </div>
+                                <div class="space-y-2">
+                                    <div>
+                                        <p class="text-gray-400">Product:</p>
+                                        <p class="font-medium text-white">${order.productName || order.productId}</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-gray-400">Amount:</p>
+                                        <p class="font-medium text-white">${order.amount} TK</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-gray-400">Payment Method:</p>
+                                        <p class="font-medium text-white">${order.paymentMethod || 'Wallet Pay'}</p>
+                                    </div>
+                                    ${order.transactionId ? `
+                                    <div>
+                                        <p class="text-gray-400">Transaction ID:</p>
+                                        <p class="font-medium text-white">${order.transactionId}</p>
+                                    </div>
+                                    ` : ''}
+                                </div>
+                            </div>
+                            <div class="pt-2 border-t border-gray-700 flex justify-between items-center">
+                                <span class="text-xs text-gray-400">Ordered at: ${timestamp}</span>
+                                <div class="flex space-x-2">
+                                    ${order.status === 'pending' ? `
+                                    <button data-id="${order.id}" data-source="${order.source}" class="complete-order-btn btn-primary text-xs font-bold py-1 px-3 rounded">Complete</button>
+                                    <button data-id="${order.id}" data-source="${order.source}" class="cancel-order-btn btn-danger text-xs font-bold py-1 px-3 rounded">Cancel</button>
+                                    ` : ''}
+                                    ${order.status === 'completed' ? `
+                                    <button data-id="${order.id}" data-source="${order.source}" class="cancel-order-btn btn-danger text-xs font-bold py-1 px-3 rounded">Refund</button>
+                                    ` : ''}
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }
+                
+                ordersListContainer.innerHTML = ordersHTML;
+            } catch (error) {
+                console.error("Error updating orders display:", error);
+                ordersListContainer.innerHTML = '<p class="text-red-500">Error fetching orders.</p>';
+            }
+        }
+        
+        // Update order statistics
+        function updateOrderStats(allOrders) {
+            const totalOrders = allOrders.length;
+            const pendingOrders = allOrders.filter(order => order.status === 'pending').length;
+            
+            // Calculate total income from completed orders
+            const totalIncome = allOrders
+                .filter(order => order.status === 'completed')
+                .reduce((sum, order) => sum + (order.amount || 0), 0);
+            
+            // Calculate weekly orders
+            const now = new Date();
+            const oneWeekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+            
+            const weeklyOrders = allOrders.filter(order => {
+                const orderDate = new Date(order.timestamp || 0);
+                return orderDate >= oneWeekAgo;
+            }).length;
+            
+            // Update DOM elements
+            totalOrdersElement.textContent = totalOrders;
+            pendingOrdersElement.textContent = pendingOrders;
+            weeklyOrdersElement.textContent = weeklyOrders;
+            totalIncomeElement.textContent = `${totalIncome} TK`;
+        }
+        
+        // Handle order actions (complete, cancel, refund)
+        ordersListContainer.addEventListener('click', async (e) => {
             const authUser = auth.currentUser;
             if (!authUser) {
                 alert("Not authenticated. Please log in again.");
                 showLogin();
                 return;
             }
-
+            
             if (e.target.classList.contains('complete-order-btn')) {
                 const orderId = e.target.dataset.id;
-                const orderPath = e.target.dataset.path;
-
-                if (confirm("Are you sure you want to complete this order?")) {
+                const source = e.target.dataset.source;
+                
+                if (confirm("Are you sure you want to mark this order as completed?")) {
                     try {
-                        await set(ref(database, orderPath + '/' + orderId + '/status'), 'completed');
-                        await set(ref(database, orderPath + '/' + orderId + '/completedAt'), serverTimestamp());
-                        alert("Order completed successfully.");
+                        await set(ref(database, source + '/' + orderId + '/status'), 'completed');
+                        alert("Order marked as completed.");
                     } catch (error) {
-                        console.error("Error completing order: ", error);
-                        alert("Failed to complete order. Check console for details.");
+                        console.error("Error completing order:", error);
+                        alert("Failed to complete order.");
                     }
                 }
             } else if (e.target.classList.contains('cancel-order-btn')) {
                 const orderId = e.target.dataset.id;
-                const orderPath = e.target.dataset.path;
+                const source = e.target.dataset.source;
+                const action = e.target.textContent.trim().toLowerCase();
                 
-                if (confirm("Are you sure you want to cancel this order? This action cannot be undone.")) {
+                if (confirm(`Are you sure you want to ${action} this order?`)) {
                     try {
-                        await set(ref(database, orderPath + '/' + orderId + '/status'), 'cancelled');
-                        await set(ref(database, orderPath + '/' + orderId + '/cancelledAt'), serverTimestamp());
-                        alert("Order cancelled successfully.");
+                        await set(ref(database, source + '/' + orderId + '/status'), 'cancelled');
+                        alert(`Order ${action}ed successfully.`);
                     } catch (error) {
-                        console.error("Error cancelling order: ", error);
-                        alert("Failed to cancel order.");
+                        console.error(`Error ${action}ing order:`, error);
+                        alert(`Failed to ${action} order.`);
                     }
                 }
             }
